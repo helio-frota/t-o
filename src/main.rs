@@ -8,6 +8,8 @@ async fn hello(_req: HttpRequest) -> &'static str {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    tracing_subscriber::fmt::init();
+
     info!("starting...");
     HttpServer::new(|| App::new().service(web::resource("/").to(hello)))
         .bind(("0.0.0.0", 8080))?
