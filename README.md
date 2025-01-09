@@ -19,4 +19,8 @@ curl localhost:8080
 Go to [http://localhost:16686](http://localhost:16686)
 
 
-![result](1.png)
+![result-1](1.png)
+
+![result-2](2.png)
+
+![result-3](3.png)
