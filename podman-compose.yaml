@@ -1,4 +1,12 @@
 services:
+  jaeger-all-in-one:
+    hostname: jaeger-all-in-one
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14250:14250"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
   collector:
     image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector:latest
     command: ["--config=/otel-collector-config.yaml"]
@@ -6,3 +14,4 @@ services:
       - './config.yaml:/otel-collector-config.yaml:z'
     ports:
       - "4317:4317"
+    depends_on: [jaeger-all-in-one]

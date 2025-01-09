@@ -1,4 +1,4 @@
-use opentelemetry::{global, trace::TracerProvider, KeyValue};
+use opentelemetry::{trace::TracerProvider, KeyValue};
 use opentelemetry_otlp::{SpanExporter, WithExportConfig};
 use opentelemetry_sdk::{trace as sdktrace, Resource};
 use tracing_subscriber::prelude::*;
@@ -23,6 +23,6 @@ pub fn init_otel_traces(name: &str) {
         .with(tracing_opentelemetry::layer().with_tracer(trace_provider.tracer(name.to_string())))
         .with(fmt_layer)
         .init();
-    // NOTE: I can see traces with this disabled... need to investigate later.
+    // NOTE: I can see traces without this... Need to investigate later.
     // global::set_tracer_provider(trace_provider);
 }

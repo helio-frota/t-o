@@ -5,6 +5,10 @@ receivers:
         endpoint: "0.0.0.0:4317"
 
 exporters:
+  otlp:
+    endpoint: jaeger-all-in-one:4317
+    tls:
+      insecure: true
   debug:
     verbosity: detailed
 
@@ -16,4 +20,4 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug]
+      exporters: [debug, otlp]
