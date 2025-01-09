@@ -16,4 +16,7 @@ cargo run
 curl localhost:8080
 ```
 
+Go to [http://localhost:16686](http://localhost:16686)
+
+
 ![result](1.png)
