@@ -20,7 +20,9 @@ pub fn init_otel_traces(name: &str) {
 
     let fmt_layer = tracing_subscriber::fmt::Layer::default();
     tracing_subscriber::registry()
+        // NOTE: The actual bits (Layer) responsible for sending the data to OTEL.
         .with(tracing_opentelemetry::layer().with_tracer(trace_provider.tracer(name.to_string())))
+        // NOTE: And this (Layer) sends to stdout.
         .with(fmt_layer)
         .init();
     // NOTE: I can see traces without this... Need to investigate later.
