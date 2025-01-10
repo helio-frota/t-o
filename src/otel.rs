@@ -21,13 +21,6 @@ pub fn init_otel_traces(name: &str) {
     let fmt_layer = tracing_subscriber::fmt::Layer::default();
     let tracer = trace_provider.tracer(name.to_string());
 
-    // let filter_otel = EnvFilter::new("info")
-    //     .add_directive("hyper=off".parse().unwrap_or("off"))
-    //     .add_directive("opentelemetry=off".parse().unwrap())
-    //     .add_directive("tonic=off".parse().unwrap())
-    //     .add_directive("h2=off".parse().unwrap())
-    //     .add_directive("reqwest=off".parse().unwrap());
-
     tracing_subscriber::registry()
         .with(EnvFilter::from_default_env())
         // NOTE: The actual Layer responsible for sending the data to OTEL.
