@@ -13,7 +13,6 @@ tracing-opentelemetry = "0.28"
 tracing-actix-web = { version = "0.7", features = ["opentelemetry_0_27"] }
 
 opentelemetry = "0.27"
-opentelemetry-appender-tracing = { version = "0.27", default-features = false }
 opentelemetry-otlp = "0.27"
 opentelemetry_sdk = { version = "0.27", features = ["rt-tokio"] }
 
