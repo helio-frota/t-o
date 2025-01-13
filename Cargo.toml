@@ -7,7 +7,12 @@ edition = "2021"
 actix-web = "4"
 
 tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter","registry", "std", "fmt"] }
+tracing-subscriber = { version = "0.3", features = [
+    "env-filter",
+    "registry",
+    "std",
+    "fmt",
+] }
 tracing-opentelemetry = "0.28"
 
 tracing-actix-web = { version = "0.7", features = ["opentelemetry_0_27"] }
@@ -17,3 +22,6 @@ opentelemetry-otlp = "0.27"
 opentelemetry_sdk = { version = "0.27", features = ["rt-tokio"] }
 
 tokio = "1.43.0"
+
+[profile.release]
+debug = true
