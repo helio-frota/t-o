@@ -28,3 +28,5 @@ Go to [http://localhost:16686](http://localhost:16686)
 ![result-4](4.png)
 
 ![result-5](5.png)
+
+![result-6](6.png)
