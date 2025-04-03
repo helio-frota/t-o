@@ -1,21 +1,25 @@
-use opentelemetry::{trace::TracerProvider, KeyValue};
-use opentelemetry_otlp::{SpanExporter, WithExportConfig};
-use opentelemetry_sdk::{trace as sdktrace, Resource};
-use tracing_subscriber::{prelude::*, EnvFilter};
+use opentelemetry::trace::TracerProvider as _;
+// use opentelemetry_otlp::{SpanExporter, WithExportConfig};
+use opentelemetry_sdk::{Resource, trace::SdkTracerProvider};
+use tracing_subscriber::{EnvFilter, prelude::*};
 
 pub fn init_otel_traces(name: &str) {
-    #[allow(clippy::expect_used)]
-    let exporter = SpanExporter::builder()
-        .with_tonic()
-        .with_endpoint("http://localhost:4317")
-        .build()
-        .expect("unable to setup exporter");
-    let trace_provider = sdktrace::TracerProvider::builder()
-        .with_resource(Resource::new(vec![KeyValue::new(
-            "service.name",
-            name.to_string(),
-        )]))
-        .with_batch_exporter(exporter, opentelemetry_sdk::runtime::Tokio)
+    // #[allow(clippy::expect_used)]
+    // let _exporter = SpanExporter::builder()
+    //     .with_tonic()
+    //     .with_endpoint("http://localhost:4317")
+    //     .build()
+    //     .expect("unable to setup exporter");
+
+    let exporter = opentelemetry_stdout::SpanExporter::default();
+
+    let resource = Resource::builder()
+        .with_service_name(name.to_string())
+        .build();
+
+    let trace_provider = SdkTracerProvider::builder()
+        .with_resource(resource)
+        .with_batch_exporter(exporter)
         .build();
 
     let fmt_layer = tracing_subscriber::fmt::Layer::default();
