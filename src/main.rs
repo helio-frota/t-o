@@ -1,4 +1,4 @@
-use actix_web::{web, App, HttpRequest, HttpServer};
+use actix_web::{App, HttpRequest, HttpServer, web};
 
 use tracing::{info, instrument};
 

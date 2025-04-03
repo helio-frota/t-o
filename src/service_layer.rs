@@ -1,4 +1,4 @@
-use tokio::time::{sleep, Duration};
+use tokio::time::{Duration, sleep};
 
 use crate::db_layer::db_stuff;
 use tracing::instrument;
