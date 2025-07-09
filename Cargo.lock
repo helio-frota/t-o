@@ -1692,11 +1692,13 @@ name = "t-o"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "anyhow",
  "opentelemetry",
  "opentelemetry-instrumentation-actix-web",
  "opentelemetry-otlp",
  "opentelemetry-stdout",
  "opentelemetry_sdk",
+ "rand 0.8.5",
  "tokio",
  "tracing",
  "tracing-opentelemetry",

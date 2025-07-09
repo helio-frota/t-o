@@ -1,7 +1,7 @@
 use opentelemetry::trace::TracerProvider as _;
 // use opentelemetry_otlp::{SpanExporter, WithExportConfig};
 use opentelemetry_sdk::{Resource, trace::SdkTracerProvider};
-use tracing_subscriber::{EnvFilter, prelude::*};
+use tracing_subscriber::{EnvFilter, filter::Directive, prelude::*};
 
 pub fn init_otel_traces(name: &str) {
     // #[allow(clippy::expect_used)]
@@ -24,9 +24,19 @@ pub fn init_otel_traces(name: &str) {
 
     let fmt_layer = tracing_subscriber::fmt::Layer::default();
     let tracer = trace_provider.tracer(name.to_string());
-
+    let base_filter = EnvFilter::from_default_env();
+    let service_stuff_error_directive =
+        match "t_o::service_layer[service_stuff_error]=error".parse::<Directive>() {
+            Ok(directive) => directive,
+            Err(e) => {
+                eprintln!("Error parsing filter directive: {e}");
+                return;
+            }
+        };
+    let filter = base_filter.add_directive(service_stuff_error_directive);
     tracing_subscriber::registry()
-        .with(EnvFilter::from_default_env())
+        .with(filter)
+        // .with(EnvFilter::from_default_env())
         // NOTE: The actual Layer responsible for sending the data to OTEL.
         .with(tracing_opentelemetry::layer().with_tracer(tracer))
         // NOTE: And this (Layer) sends to standard output.

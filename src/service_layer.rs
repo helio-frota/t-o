@@ -1,28 +1,33 @@
-use tokio::time::{Duration, sleep};
+use anyhow::{Context, Result};
+use tracing::Level;
+use tracing::instrument;
 
 use crate::db_layer::db_stuff;
-use tracing::Level;
 
-#[derive(Debug)]
-pub enum ServiceError {
-    SimulatedFailure,
+// NOTE: This is working when using manual span creation
+// We can have error only for this and continuing using INFO for all the rest
+pub async fn service_stuff() -> Result<()> {
+    match db_stuff().await {
+        Ok(_) => Ok(()),
+        Err(e) => {
+            let span = tracing::error_span!("service_stuff_error", error = %e);
+            let _ = span.enter();
+            tracing::error!("db_stuff failed inside service_stuff");
+            Err(e)
+        }
+    }
 }
 
-// #[instrument(skip_all)]
-// #[instrument(skip_all, level = "trace")]
-pub async fn service_stuff() -> Result<(), ServiceError> {
-    let duration = Duration::from_millis(300);
-    sleep(duration).await;
+// NOTE: This is creating spans with or without error
+// Also the error is weirdly shown as INFO
+// #[instrument(skip_all, level = Level::ERROR)]
+// pub async fn service_stuff() -> Result<()> {
+//     db_stuff().await?;
+//
+//     Ok(())
+// }
 
-    let should_fail = false;
-
-    if should_fail {
-        let span = tracing::span!(Level::ERROR, "service_stuff");
-        let _ = span.enter();
-        tracing::error!("service_stuff failed: simulated failure");
-        return Err(ServiceError::SimulatedFailure);
-    }
-
-    db_stuff().await;
-    Ok(())
+#[instrument(skip_all)]
+pub async fn other_foo_bar() {
+    print!("other_foo_bar in the same service_sfuff namespace");
 }

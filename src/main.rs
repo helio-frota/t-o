@@ -1,5 +1,6 @@
 use actix_web::{App, HttpRequest, HttpServer, web};
 
+use service_layer::other_foo_bar;
 use tracing::{info, instrument};
 
 use std::sync::Once;
@@ -18,7 +19,11 @@ async fn hello(_req: HttpRequest) -> &'static str {
     // let _guard = span.enter();
     // info!("before returning Hello");
     let service_stuff = service_stuff().await;
+
+    other_foo_bar().await;
+
     println!("{service_stuff:?}");
+
     "Hello"
 }
 

@@ -5,15 +5,15 @@ edition = "2021"
 
 [dependencies]
 actix-web = "4"
-opentelemetry-instrumentation-actix-web = "0.22"
+anyhow = "1.0"
 opentelemetry = "0.30"
+opentelemetry-instrumentation-actix-web = "0.22"
 opentelemetry-otlp = { version = "0.30", features = ["grpc-tonic"] }
 opentelemetry-stdout = "0.30"
 opentelemetry_sdk = { version = "0.30", features = ["rt-tokio"] }
+rand = "0.8.5"
 tokio = "1.44"
 tracing = "0.1"
 tracing-opentelemetry = "0.31"
 tracing-subscriber = { version = "0.3.19", features = ["env-filter", "registry", "std", "fmt"] }
 
-[profile.release]
-debug = true
