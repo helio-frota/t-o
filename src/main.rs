@@ -17,7 +17,8 @@ async fn hello(_req: HttpRequest) -> &'static str {
     // let span = span!(Level::INFO, "hello function");
     // let _guard = span.enter();
     // info!("before returning Hello");
-    service_stuff().await;
+    let service_stuff = service_stuff().await;
+    println!("{service_stuff:?}");
     "Hello"
 }
 

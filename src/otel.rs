@@ -29,7 +29,7 @@ pub fn init_otel_traces(name: &str) {
         .with(EnvFilter::from_default_env())
         // NOTE: The actual Layer responsible for sending the data to OTEL.
         .with(tracing_opentelemetry::layer().with_tracer(tracer))
-        // NOTE: And this (Layer) sends to stdout.
+        // NOTE: And this (Layer) sends to standard output.
         .with(fmt_layer)
         .init();
     // NOTE: I can see traces without this... Need to investigate later.
