@@ -12,7 +12,6 @@ pub async fn service_stuff() -> Result<()> {
         Err(e) => {
             let span = tracing::error_span!("service_stuff_error", error = %e);
             let _ = span.enter();
-            tracing::error!("db_stuff failed inside service_stuff");
             Err(e)
         }
     }
