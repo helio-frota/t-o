@@ -1,5 +1,6 @@
 use actix_web::{App, HttpRequest, HttpServer, web};
 
+use actix_web_static_files::ResourceFiles;
 use service_layer::other_foo_bar;
 use tracing::{info, instrument};
 
@@ -28,6 +29,7 @@ async fn hello(_req: HttpRequest) -> &'static str {
 }
 
 static INIT: Once = Once::new();
+include!(concat!(env!("OUT_DIR"), "/generated.rs"));
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -35,8 +37,14 @@ async fn main() -> std::io::Result<()> {
 
     info!("starting...");
 
-    HttpServer::new(|| App::new().service(web::resource("/").to(hello)))
-        .bind(("0.0.0.0", 8080))?
-        .run()
-        .await
+    HttpServer::new(|| {
+        let generated = generate();
+        App::new()
+            // .service(ResourceFiles::new("/", generated).resolve_not_found_to(""))
+            // .route("/", web::get())
+            .service(web::resource("/").to(hello))
+    })
+    .bind(("0.0.0.0", 8080))?
+    .run()
+    .await
 }

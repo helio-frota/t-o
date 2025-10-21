@@ -4,7 +4,7 @@ use std::time::Duration;
 use tokio::time::sleep;
 use tracing::instrument;
 
-// #[instrument(skip_all, err)]
+#[instrument(skip_all, err)]
 pub async fn db_stuff() -> Result<()> {
     let duration = Duration::from_millis(1500);
     sleep(duration).await;
